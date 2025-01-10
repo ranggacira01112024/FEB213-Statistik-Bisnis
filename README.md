@@ -1,5 +1,7 @@
 # FEB213---Statistik-Bisnis
-Perhitungan Chi-Square Test 
+Khusus Upload Tugas Statistik Bisnis All Pertemuan
+
+
 Nilai Chi-Square: 41.91505686435219
 Nilai expected:
 [[66.01631702 60.81818182 71.21445221 24.95104895]
