@@ -1,0 +1,109 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOMo8+nHruelIUwwXEz+0j0",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ranggacira01112024/FEB213-Statistik-Bisnis/blob/main/Statistik%20Bisnis%20P13%20-%2020220801234%20-%20Maulana%20Rangga%20Arrosyid\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "pDtNEzPXNaNn",
+        "outputId": "aeb52673-339d-4799-ee99-db12bf8764dd"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "=== Hasil Uji Kruskal-Wallis ===\n",
+            "H-statistic: 5.9559\n",
+            "p-value: 0.0509\n",
+            "\n",
+            "=== Rata-rata Ranking per Kelompok ===\n",
+            "Kelompok\n",
+            "Ilmiah       7.1\n",
+            "Keduanya    11.5\n",
+            "Olahraga     4.7\n",
+            "Name: Ranking, dtype: float64\n",
+            "\n",
+            "=== Data Lengkap dengan Ranking ===\n",
+            "    Nilai  Kelompok  Ranking\n",
+            "3      71  Olahraga      1.0\n",
+            "5      72    Ilmiah      2.0\n",
+            "2      81  Olahraga      3.0\n",
+            "0      89  Olahraga      4.0\n",
+            "4      91  Olahraga      5.0\n",
+            "9     109    Ilmiah      6.0\n",
+            "10    114  Keduanya      7.0\n",
+            "7     123    Ilmiah      8.0\n",
+            "6     124    Ilmiah      9.0\n",
+            "1     128  Olahraga     10.5\n",
+            "8     128    Ilmiah     10.5\n",
+            "11    138  Keduanya     12.0\n",
+            "12    148  Keduanya     13.0\n",
+            "13    152  Keduanya     14.0\n"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "from scipy import stats\n",
+        "import pandas as pd\n",
+        "\n",
+        "# Data untuk masing-masing kelompok\n",
+        "olahraga = [89, 128, 81, 71, 91]\n",
+        "ilmiah = [72, 124, 123, 128, 109]\n",
+        "keduanya = [114, 138, 148, 152]\n",
+        "\n",
+        "# Melakukan uji Kruskal-Wallis\n",
+        "h_statistic, p_value = stats.kruskal(olahraga, ilmiah, keduanya)\n",
+        "\n",
+        "# Membuat DataFrame untuk menampilkan ranking\n",
+        "all_data = pd.DataFrame({\n",
+        "    'Nilai': olahraga + ilmiah + keduanya,\n",
+        "    'Kelompok': ['Olahraga']*5 + ['Ilmiah']*5 + ['Keduanya']*4\n",
+        "})\n",
+        "\n",
+        "# Menghitung ranking\n",
+        "all_data['Ranking'] = stats.rankdata(all_data['Nilai'])\n",
+        "\n",
+        "# Menghitung rata-rata ranking per kelompok\n",
+        "rank_means = all_data.groupby('Kelompok')['Ranking'].mean()\n",
+        "\n",
+        "print(\"=== Hasil Uji Kruskal-Wallis ===\")\n",
+        "print(f\"H-statistic: {h_statistic:.4f}\")\n",
+        "print(f\"p-value: {p_value:.4f}\")\n",
+        "print(\"\\n=== Rata-rata Ranking per Kelompok ===\")\n",
+        "print(rank_means)\n",
+        "print(\"\\n=== Data Lengkap dengan Ranking ===\")\n",
+        "print(all_data.sort_values('Ranking'))"
+      ]
+    }
+  ]
+}
